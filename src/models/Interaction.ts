@@ -38,4 +38,4 @@ const InteractionSchema = new mongoose.Schema({
 
 }, { timestamps: true })
 
-export default mongoose.model("Interaction", InteractionSchema)
+export default mongoose.models.Interaction || mongoose.model("Interaction", InteractionSchema)

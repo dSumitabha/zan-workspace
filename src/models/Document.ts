@@ -34,4 +34,4 @@ const DocumentSchema = new mongoose.Schema({
 
 }, { timestamps: true })
 
-export default mongoose.model("Document", DocumentSchema)
+export default mongoose.models.Document || mongoose.model("Document", DocumentSchema)

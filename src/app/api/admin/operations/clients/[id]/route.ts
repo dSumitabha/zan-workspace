@@ -1,0 +1,98 @@
+import { NextRequest, NextResponse } from "next/server"
+import dbConnect from "@/lib/db/dbConnect"
+import Client from "@/models/Client"
+
+export async function GET(
+    req: NextRequest,
+    context: { params: Promise<{ id: string }> }
+) {
+    try {
+        await dbConnect()
+
+        const { id } = await context.params
+
+        const client = await Client.findById(id)
+
+        if (!client) {
+            return NextResponse.json(
+                { success: false, message: "Client not found" },
+                { status: 404 }
+            )
+        }
+
+        return NextResponse.json({
+            success: true,
+            data: client
+        })
+    } catch {
+        return NextResponse.json(
+            { success: false, message: "Invalid ID" },
+            { status: 400 }
+        )
+    }
+}
+
+export async function PATCH(
+    req: NextRequest,
+    context: { params: Promise<{ id: string }> }
+) {
+    try {
+        await dbConnect()
+
+        const { id } = await context.params
+        const body = await req.json()
+
+        const client = await Client.findByIdAndUpdate(
+            id,
+            body,
+            { new: true }
+        )
+
+        if (!client) {
+            return NextResponse.json(
+                { success: false, message: "Client not found" },
+                { status: 404 }
+            )
+        }
+
+        return NextResponse.json({
+            success: true,
+            data: client
+        })
+    } catch {
+        return NextResponse.json(
+            { success: false, message: "Update failed" },
+            { status: 400 }
+        )
+    }
+}
+
+export async function DELETE(
+    req: NextRequest,
+    context: { params: Promise<{ id: string }> }
+) {
+    try {
+        await dbConnect()
+
+        const { id } = await context.params
+
+        const client = await Client.findByIdAndDelete(id)
+
+        if (!client) {
+            return NextResponse.json(
+                { success: false, message: "Client not found" },
+                { status: 404 }
+            )
+        }
+
+        return NextResponse.json({
+            success: true,
+            message: "Client deleted"
+        })
+    } catch {
+        return NextResponse.json(
+            { success: false, message: "Delete failed" },
+            { status: 400 }
+        )
+    }
+}

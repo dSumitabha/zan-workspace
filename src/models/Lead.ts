@@ -17,7 +17,7 @@ const LeadSchema = new Schema<ILead>(
     {
         name: { type: String, required: true },
         email: String,
-        phone: { type: String, required: true },
+        phone: { type: String, required: true, unique: true },
         source: { type: String, required: true },
 
         status: {

@@ -12,8 +12,8 @@ export const CLIENT_STATUS_META: Record<
     ClientStatus,
     { label: string; color: string }
 > = {
-    1: { label: "Active", color: "green" },
-    2: { label: "Inactive", color: "gray" },
-    3: { label: "On Hold", color: "yellow" },
-    4: { label: "Completed", color: "blue" }
+    1: { label: "Active", color: "bg-green-500 text-white" },
+    2: { label: "Inactive", color: "bg-gray-500 text-white" },
+    3: { label: "On Hold", color: "bg-yellow-500 text-yellow-900" },
+    4: { label: "Completed", color: "bg-blue-500 text-white" }
 }

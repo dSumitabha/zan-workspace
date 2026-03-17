@@ -1,11 +1,11 @@
 export const STATUSES = [
-    "NEW_LEAD",
+    "NEW LEAD",
     "CONTACTED",
-    "MEETING_SCHEDULED",
+    "MEETING SCHEDULED",
     "DISCUSSION",
     "NEGOTIATION",
     "ACTIVE",
-    "IN_PROGRESS",
+    "IN PROGRESS",
     "MAINTENANCE",
     "COMPLETED"
 ] as const

@@ -1,8 +1,8 @@
 export const INTERACTION_TYPES = [
-    "MEETING",
-    "NOTE",
-    "DOCUMENT",
-    "PROPOSAL"
+    "Meeting",
+    "Note",
+    "Proposal",
+    "Call"
 ] as const
 
 export type InteractionType = typeof INTERACTION_TYPES[number]

@@ -1,44 +1,43 @@
-import mongoose from "mongoose";
+import mongoose, { Schema, Document } from "mongoose"
+import { LEAD_STATUS } from "@/constants/leadStatus"
 
-const LeadSchema = new mongoose.Schema({
+export interface ILead extends Document {
+    name: string
+    email?: string
+    phone: string
+    source: string
 
-    name: String,
+    status: number
 
-    company: String,
+    assignedTo?: mongoose.Types.ObjectId
+    convertedClientId?: mongoose.Types.ObjectId
+}
 
-    phone: String,
+const LeadSchema = new Schema<ILead>(
+    {
+        name: { type: String, required: true },
+        email: String,
+        phone: { type: String, required: true },
+        source: { type: String, required: true },
 
-    email: String,
+        status: {
+            type: Number,
+            default: LEAD_STATUS.NEW,
+            required: true
+        },
 
-    source: {
-        type: String,
-        enum: ["FACEBOOK", "GOOGLE", "REFERRAL", "MANUAL"]
+        assignedTo: {
+            type: Schema.Types.ObjectId,
+            ref: "User"
+        },
+
+        convertedClientId: {
+            type: Schema.Types.ObjectId,
+            ref: "Client"
+        }
     },
+    { timestamps: true }
+)
 
-    status: {
-        type: String,
-        enum: [
-            "NEW_LEAD",
-            "CONTACTED",
-            "MEETING_SCHEDULED",
-            "DISCUSSION",
-            "NEGOTIATION",
-            "CONVERTED",
-            "LOST"
-        ],
-        default: "NEW_LEAD"
-    },
-
-    assignedTo: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
-    },
-
-    convertedClientId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Client"
-    }
-
-}, { timestamps: true })
-
-export default mongoose.models.Lead || mongoose.model("Lead", LeadSchema)
+export default mongoose.models.Lead ||
+    mongoose.model<ILead>("Lead", LeadSchema)

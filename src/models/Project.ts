@@ -1,52 +1,40 @@
-import mongoose from "mongoose";
+import mongoose, { Schema, Document } from "mongoose"
+import { PROJECT_STATUS } from "@/constants/projectStatus"
 
-const ProjectSchema = new mongoose.Schema({
+export interface IProject extends Document {
+    clientId: mongoose.Types.ObjectId
+    companyName?: string
+    title: string
+    description?: string
+    serviceType?: string
 
-    companyId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Company"
+    status: number
+
+    budget?: number
+}
+
+const ProjectSchema = new Schema<IProject>(
+    {
+        clientId: {
+            type: Schema.Types.ObjectId,
+            ref: "Client",
+            required: true
+        },
+        companyName: String,
+        title: { type: String, required: true },
+        description: String,
+        serviceType: String,
+
+        status: {
+            type: Number,
+            default: PROJECT_STATUS.DISCUSSION,
+            required: true
+        },
+
+        budget: Number
     },
+    { timestamps: true }
+)
 
-    title: String,
-
-    description: String,
-
-    service: {
-        type: String,
-        enum: [
-            "WEB_DEVELOPMENT",
-            "DIGITAL_MARKETING",
-            "SEO",
-            "MOBILE_APP",
-            "BLOCKCHAIN"
-        ]
-    },
-
-    status: {
-        type: String,
-        enum: [
-            "DISCUSSION",
-            "PROPOSAL_SENT",
-            "NEGOTIATION",
-            "CONFIRMED",
-            "IN_PROGRESS",
-            "DEPLOYED",
-            "MAINTENANCE",
-            "CLOSED"
-        ],
-        default: "DISCUSSION"
-    },
-
-    estimatedBudget: Number,
-
-    securedBudget: Number,
-
-    paidAmount: Number,
-
-    dueAmount: Number,
-
-    nextPaymentDate: Date,
-
-}, { timestamps: true })
-
-export default mongoose.models.Project || mongoose.model("Project", ProjectSchema)
+export default mongoose.models.Project ||
+    mongoose.model<IProject>("Project", ProjectSchema)

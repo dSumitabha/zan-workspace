@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { toast } from "sonner"
 import { useRouter, useParams } from "next/navigation"
 import { PROJECT_STATUS } from "@/constants/projectStatus"
 import ClientInfoCard from "@/components/admin/operations/ClientInfoCard"
@@ -31,10 +32,13 @@ export default function CreateProjectPage() {
 
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault()
+
         setLoading(true)
 
+        const toastId = toast.loading("Creating project...")
+
         try {
-            const res = await fetch("/api/admin/projects", {
+            const res = await fetch("/api/admin/operations/projects", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -49,13 +53,24 @@ export default function CreateProjectPage() {
             const data = await res.json()
 
             if (!res.ok) {
-                alert(data.message || "Something went wrong")
+                toast.error(data?.message || "Something went wrong", {
+                    id: toastId
+                })
                 return
             }
 
-            router.push("/admin/operations/projects")
-        } catch {
-            alert("Failed to create project")
+            toast.success("Project created successfully", {
+                id: toastId
+            })
+
+            setTimeout(() => {
+                router.push("/admin/operations/projects");
+            }, 3000);
+
+        } catch (error) {
+            toast.error("Failed to create project", {
+                id: toastId
+            })
         } finally {
             setLoading(false)
         }
@@ -100,6 +115,7 @@ export default function CreateProjectPage() {
                             value={form.description}
                             onChange={handleChange}
                             rows={4}
+                            required
                             className="w-full border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-400 dark:focus:ring-neutral-600"
                         />
 
@@ -108,6 +124,7 @@ export default function CreateProjectPage() {
                             placeholder="Service Type (Web, SEO, etc.)"
                             value={form.serviceType}
                             onChange={handleChange}
+                            required
                             className="w-full border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-400 dark:focus:ring-neutral-600"
                         />
 
@@ -115,6 +132,7 @@ export default function CreateProjectPage() {
                             name="status"
                             value={form.status}
                             onChange={handleChange}
+                            required
                             className="w-full border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-400 dark:focus:ring-neutral-600"
                         >
                             {Object.entries(PROJECT_STATUS).map(([key, value]) => (
@@ -135,6 +153,7 @@ export default function CreateProjectPage() {
                             placeholder="Total Budget (₹)"
                             value={form.budget}
                             onChange={handleChange}
+                            required
                             className="w-full border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-400 dark:focus:ring-neutral-600"
                         />
                     </div>

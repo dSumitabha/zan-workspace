@@ -2,6 +2,7 @@ import StatusBadge from "./StatusBadge"
 import ServiceBadge from "./ServiceBadge"
 import InteractionCard from "./InteractionCard"
 import { LEAD_STATUS_META, LEAD_STATUS } from "@/constants/leadStatus"
+import TimeAgo from "./dayjs/TimeAgo"
 
 interface Props {
     name: string
@@ -58,8 +59,10 @@ export default function LeadCard({
             <div className="mt-3 text-sm text-neutral-300 space-y-1">
                 <p>{phone}</p>
                 {email && <p>{email}</p>}
-                <p className="text-xs text-neutral-500">
-                    {source} • {formatDate(createdAt)}
+                <p className="text-xs text-neutral-500 flex gap-1 items-center">
+                    <span>{source}</span>
+                    <span>•</span>
+                    <TimeAgo date={createdAt} />
                 </p>
             </div>
 

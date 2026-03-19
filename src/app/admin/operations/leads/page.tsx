@@ -74,7 +74,15 @@ export default function Page() {
 
                     {!loading &&
                         leads.map((lead) => (
-                            <LeadCard key={lead._id} lead={lead} />
+                            <LeadCard
+                                key={lead._id}
+                                name={lead.name}
+                                email={lead.email}
+                                phone={lead.phone}
+                                source={lead.source}
+                                createdAt={lead.createdAt}
+                                status={lead.status}
+                            />
                         ))}
                 </div>
 

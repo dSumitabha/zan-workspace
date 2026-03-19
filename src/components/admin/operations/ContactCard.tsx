@@ -7,7 +7,7 @@ interface Props {
     company: string
     service: "Web Development" | "Digital Marketing" | "BlockChain" | "Mobile APP" | "SEO"
     status: | "NEW_LEAD" | "CONTACTED" | "MEETING_SCHEDULED" | "DISCUSSION" | "NEGOTIATION" | "ACTIVE" | "IN_PROGRESS" | "MAINTENANCE" | "COMPLETED"
-    interaction: {
+    interaction?: {
         type: "MEETING" | "NOTE" | "DOCUMENT" | "PROPOSAL"
         title: string
         subtitle?: string
@@ -35,7 +35,7 @@ export default function ContactCard({ name, company, service, status, interactio
                 <ServiceBadge service={service} />
             </div>
 
-            <InteractionCard {...interaction} />
+            {interaction && <InteractionCard {...interaction} />}
 
         </div>
     )

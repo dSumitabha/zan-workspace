@@ -3,9 +3,10 @@ import ServiceBadge from "./ServiceBadge"
 import InteractionCard from "./InteractionCard"
 import { LEAD_STATUS_META, LEAD_STATUS } from "@/constants/leadStatus"
 import TimeAgo from "./dayjs/TimeAgo"
-import { Link } from "lucide-react"
+import Link from "next/link"
 
 interface Props {
+    id: string
     name: string
     company?: string
     email?: string
@@ -24,6 +25,7 @@ interface Props {
 }
 
 export default function LeadCard({
+    id,
     name,
     company,
     email,
@@ -35,9 +37,7 @@ export default function LeadCard({
     interaction
 }: Props & { id: string }) {
     return (
-        <Link href={`/admin/operations/leads/${id}`}>
-        <div className="p-4 rounded-xl bg-slate-100 dark:bg-neutral-950 border border-neutral-600 hover:border-blue-500/40 transition cursor-pointer">
-
+        <Link href={`/admin/operations/leads/${id}`} className="block my-4 p-4 rounded-xl bg-slate-100 dark:bg-neutral-950 border border-neutral-600 hover:border-blue-500/40 transition cursor-pointer">
             {/* Header */}
             <div className="flex items-center justify-between">
                 <div>
@@ -66,7 +66,6 @@ export default function LeadCard({
 
             {/* Interaction */}
             {interaction && <InteractionCard {...interaction} />}
-        </div>
         </Link>
     )
 }

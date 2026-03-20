@@ -3,7 +3,11 @@ import { ProjectStatus } from "@/constants/projectStatus"
 export interface Project {
     _id: string
 
-    clientId: string
+    clientId: {
+        _id: string
+        name: string
+        company: string
+    }
     companyName?: string
     title: string
     description?: string

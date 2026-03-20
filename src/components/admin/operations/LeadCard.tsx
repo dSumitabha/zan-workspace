@@ -4,6 +4,8 @@ import InteractionCard from "./InteractionCard"
 import { LEAD_STATUS_META, LEAD_STATUS } from "@/constants/leadStatus"
 import TimeAgo from "./dayjs/TimeAgo"
 import Link from "next/link"
+import { SquaresIntersect } from "lucide-react"
+
 
 interface Props {
     id: string
@@ -45,11 +47,13 @@ export default function LeadCard({
                     <p className="text-sm text-neutral-400">{company}</p>
                 </div>
 
-                <StatusBadge status={status} meta={LEAD_STATUS_META} />
+                <div className="flex items-center gap-2">
+                    <StatusBadge status={status} meta={LEAD_STATUS_META} />
+                </div>
             </div>
 
             {/* Contact Info */}
-            <div className="mt-3 text-sm text-neutral-300 space-y-1">
+            <div className="relative mt-3 text-sm text-neutral-300 space-y-1">
                 <p>{phone}</p>
                 {email && <p>{email}</p>}
                 <p className="text-xs text-neutral-500 flex gap-1 items-center">
@@ -57,6 +61,25 @@ export default function LeadCard({
                     <span>•</span>
                     <TimeAgo date={createdAt} />
                 </p>
+                <div className="absolute top-1/2 right-0 -translate-y-1/2">
+                    {status >= LEAD_STATUS.NEGOTIATION &&
+                        status < LEAD_STATUS.CONVERTED && (
+                        <button
+                            onClick={(e) => {
+                            e.preventDefault()
+                            e.stopPropagation()
+                            // TODO: call convert API
+                            console.log("Convert to client", id)
+                            }}
+                            className="flex items-center gap-1 text-xs px-3 py-2 rounded-md 
+                                    bg-green-600 hover:bg-green-700 text-white 
+                                    shadow-sm hover:shadow-md transition-all duration-200"
+                        >
+                            <span>Convert To Client</span>
+                            <SquaresIntersect size={14} strokeWidth={2} />
+                        </button>
+                        )}
+                </div>
             </div>
 
             {/* Service */}

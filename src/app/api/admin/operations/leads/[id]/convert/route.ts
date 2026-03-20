@@ -49,7 +49,7 @@ export async function POST(
         }
 
         // Status validation (int-based)
-        if (lead.status < LEAD_STATUS.NEGOTIATION) {
+        if (lead.status < 50 || lead.status > 59) {
             await session.abortTransaction()
             return NextResponse.json(
                 { success: false, message: "Lead not eligible for conversion" },
